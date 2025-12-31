@@ -4,4 +4,72 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="Models\DataModel\Fields\MatrixTypes.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MatrixTypes.tt</DependentUpon>
+    </None>
+    <None Include="Models\DataModel\Fields\Primitives.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Primitives.tt</DependentUpon>
+    </None>
+    <None Include="Models\DataModel\Fields\Quaternions.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Quaternions.tt</DependentUpon>
+    </None>
+    <None Include="Models\DataModel\Fields\Vectors.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Vectors.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="10.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Models\DataModel\Fields\MatrixTypes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MatrixTypes.cs</LastGenOutput>
+    </None>
+    <None Update="Models\DataModel\Fields\Primitives.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Primitives.cs</LastGenOutput>
+    </None>
+    <None Update="Models\DataModel\Fields\Quaternions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Quaternions.cs</LastGenOutput>
+    </None>
+    <None Update="Models\DataModel\Fields\Vectors.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Vectors.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Models\DataModel\Fields\MatrixTypes.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MatrixTypes.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\DataModel\Fields\Primitives.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Primitives.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\DataModel\Fields\Vectors.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Vectors.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>
