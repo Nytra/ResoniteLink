@@ -16,4 +16,7 @@ namespace ResoniteLink
         [JsonPropertyName("targetId")]
         public string TargetID { get; set; }
     }
+
+    [JsonDerivedType(typeof(Reference), "reference")]
+    public partial class Member { }
 }
