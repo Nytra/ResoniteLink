@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.IO;
+using System.Text.Json;
 
 namespace ResoniteLink
 {
@@ -19,10 +20,17 @@ namespace ResoniteLink
         ClientWebSocket _client;
         CancellationTokenSource cancellation;
 
+        JsonSerializerOptions _options;
+
         ConcurrentDictionary<string, TaskCompletionSource<Response>> _pendingResponses = new ConcurrentDictionary<string, TaskCompletionSource<Response>>();
 
         public LinkInterface()
         {
+            _options = new JsonSerializerOptions()
+            {
+                // Necessary for values like Infinity, NaN and so on
+                NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals
+            };
         }
 
         public async Task Connect(Uri target, System.Threading.CancellationToken cancellationToken)
