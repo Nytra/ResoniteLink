@@ -7,11 +7,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
+using System.Runtime.InteropServices;
 
 namespace ResoniteLink
 {
     
-            public class Field_float2x2 : Field
+            // The struct layout is not necessary for serialization itself, but this simplifies the use
+            // of these types within FrooxEngine itself
+            [StructLayout(LayoutKind.Sequential)]
+            public struct float2x2
             {
                                         [JsonPropertyName("m00")]
                         public float m00 { get; set; }
@@ -23,11 +27,11 @@ namespace ResoniteLink
                         public float m11 { get; set; }
                                     }
 
-            [JsonDerivedType(typeof(Field_float2x2), "float2x2")]
-            public partial class Member { }
-
             
-            public class Field_float3x3 : Field
+            // The struct layout is not necessary for serialization itself, but this simplifies the use
+            // of these types within FrooxEngine itself
+            [StructLayout(LayoutKind.Sequential)]
+            public struct float3x3
             {
                                         [JsonPropertyName("m00")]
                         public float m00 { get; set; }
@@ -49,11 +53,11 @@ namespace ResoniteLink
                         public float m22 { get; set; }
                                     }
 
-            [JsonDerivedType(typeof(Field_float3x3), "float3x3")]
-            public partial class Member { }
-
             
-            public class Field_float4x4 : Field
+            // The struct layout is not necessary for serialization itself, but this simplifies the use
+            // of these types within FrooxEngine itself
+            [StructLayout(LayoutKind.Sequential)]
+            public struct float4x4
             {
                                         [JsonPropertyName("m00")]
                         public float m00 { get; set; }
@@ -89,11 +93,11 @@ namespace ResoniteLink
                         public float m33 { get; set; }
                                     }
 
-            [JsonDerivedType(typeof(Field_float4x4), "float4x4")]
-            public partial class Member { }
-
             
-            public class Field_double2x2 : Field
+            // The struct layout is not necessary for serialization itself, but this simplifies the use
+            // of these types within FrooxEngine itself
+            [StructLayout(LayoutKind.Sequential)]
+            public struct double2x2
             {
                                         [JsonPropertyName("m00")]
                         public double m00 { get; set; }
@@ -105,11 +109,11 @@ namespace ResoniteLink
                         public double m11 { get; set; }
                                     }
 
-            [JsonDerivedType(typeof(Field_double2x2), "double2x2")]
-            public partial class Member { }
-
             
-            public class Field_double3x3 : Field
+            // The struct layout is not necessary for serialization itself, but this simplifies the use
+            // of these types within FrooxEngine itself
+            [StructLayout(LayoutKind.Sequential)]
+            public struct double3x3
             {
                                         [JsonPropertyName("m00")]
                         public double m00 { get; set; }
@@ -131,11 +135,11 @@ namespace ResoniteLink
                         public double m22 { get; set; }
                                     }
 
-            [JsonDerivedType(typeof(Field_double3x3), "double3x3")]
-            public partial class Member { }
-
             
-            public class Field_double4x4 : Field
+            // The struct layout is not necessary for serialization itself, but this simplifies the use
+            // of these types within FrooxEngine itself
+            [StructLayout(LayoutKind.Sequential)]
+            public struct double4x4
             {
                                         [JsonPropertyName("m00")]
                         public double m00 { get; set; }
@@ -170,8 +174,5 @@ namespace ResoniteLink
                                                 [JsonPropertyName("m33")]
                         public double m33 { get; set; }
                                     }
-
-            [JsonDerivedType(typeof(Field_double4x4), "double4x4")]
-            public partial class Member { }
 
             }

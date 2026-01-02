@@ -20,6 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
+using System.Runtime.InteropServices;
+
 
 namespace ResoniteLink
 {
@@ -29,7 +31,10 @@ namespace ResoniteLink
         string quatType = baseType + "Q";
         #>
 
-        public class Field_<#=quatType#> : Field
+        // The struct layout is not necessary for serialization itself, but this simplifies the use
+        // of these types within FrooxEngine itself
+        [StructLayout(LayoutKind.Sequential)]
+        public struct <#=quatType#>
         {
             <#
             for(int n = 0; n < 4; n++)
@@ -43,10 +48,6 @@ namespace ResoniteLink
             }
             #>
         }
-
-        [JsonDerivedType(typeof(Field_<#=quatType#>), "<#=quatType#>")]
-        public partial class Member { }
-
         <#
     }
     #>

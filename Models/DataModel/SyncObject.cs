@@ -14,6 +14,6 @@ namespace ResoniteLink
         public Dictionary<string, Member> Members { get; set; }
     }
 
-    [JsonDerivedType(typeof(Reference), "syncObject")]
+    [JsonDerivedType(typeof(SyncObject), "syncObject")]
     public partial class Member { }
 }

@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
+using System.Runtime.InteropServices;
 
 namespace ResoniteLink
 {
@@ -31,7 +32,10 @@ namespace ResoniteLink
             string matrixType = baseType + dim + "x" + dim;
             #>
 
-            public class Field_<#=matrixType#> : Field
+            // The struct layout is not necessary for serialization itself, but this simplifies the use
+            // of these types within FrooxEngine itself
+            [StructLayout(LayoutKind.Sequential)]
+            public struct <#=matrixType#>
             {
                 <#
                 for(int c = 0; c < dim; c++)
@@ -46,9 +50,6 @@ namespace ResoniteLink
                     }
                 #>
             }
-
-            [JsonDerivedType(typeof(Field_<#=matrixType#>), "<#=matrixType#>")]
-            public partial class Member { }
 
             <#
         }

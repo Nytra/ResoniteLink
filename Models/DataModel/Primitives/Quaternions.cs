@@ -7,11 +7,16 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
+using System.Runtime.InteropServices;
+
 
 namespace ResoniteLink
 {
     
-        public class Field_floatQ : Field
+        // The struct layout is not necessary for serialization itself, but this simplifies the use
+        // of these types within FrooxEngine itself
+        [StructLayout(LayoutKind.Sequential)]
+        public struct floatQ
         {
                             [JsonPropertyName("x")]
                 public float x { get; set; }
@@ -22,12 +27,11 @@ namespace ResoniteLink
                                 [JsonPropertyName("w")]
                 public float w { get; set; }
                         }
-
-        [JsonDerivedType(typeof(Field_floatQ), "floatQ")]
-        public partial class Member { }
-
         
-        public class Field_doubleQ : Field
+        // The struct layout is not necessary for serialization itself, but this simplifies the use
+        // of these types within FrooxEngine itself
+        [StructLayout(LayoutKind.Sequential)]
+        public struct doubleQ
         {
                             [JsonPropertyName("x")]
                 public double x { get; set; }
@@ -38,8 +42,4 @@ namespace ResoniteLink
                                 [JsonPropertyName("w")]
                 public double w { get; set; }
                         }
-
-        [JsonDerivedType(typeof(Field_doubleQ), "doubleQ")]
-        public partial class Member { }
-
         }

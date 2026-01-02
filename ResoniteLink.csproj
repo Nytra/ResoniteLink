@@ -5,22 +5,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Models\DataModel\Fields\MatrixTypes.cs">
+    <None Include="Models\DataModel\Primitives\MatrixTypes.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>MatrixTypes.tt</DependentUpon>
     </None>
-    <None Include="Models\DataModel\Fields\Primitives.cs">
+    <None Include="Models\DataModel\PrimitiveContainers.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Primitives.tt</DependentUpon>
+      <DependentUpon>PrimitiveContainers.tt</DependentUpon>
     </None>
-    <None Include="Models\DataModel\Fields\Quaternions.cs">
+    <None Include="Models\DataModel\Primitives\Quaternions.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Quaternions.tt</DependentUpon>
     </None>
-    <None Include="Models\DataModel\Fields\Vectors.cs">
+    <None Include="Models\DataModel\Primitives\Vectors.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Vectors.tt</DependentUpon>
@@ -32,19 +32,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Models\DataModel\Fields\MatrixTypes.tt">
+    <None Update="Models\DataModel\Primitives\MatrixTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MatrixTypes.cs</LastGenOutput>
     </None>
-    <None Update="Models\DataModel\Fields\Primitives.tt">
+    <None Update="Models\DataModel\PrimitiveContainers.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Primitives.cs</LastGenOutput>
+      <LastGenOutput>PrimitiveContainers.cs</LastGenOutput>
     </None>
-    <None Update="Models\DataModel\Fields\Quaternions.tt">
+    <None Update="Models\DataModel\Primitives\Quaternions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Quaternions.cs</LastGenOutput>
     </None>
-    <None Update="Models\DataModel\Fields\Vectors.tt">
+    <None Update="Models\DataModel\Primitives\Vectors.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Vectors.cs</LastGenOutput>
     </None>
@@ -55,17 +55,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Models\DataModel\Fields\MatrixTypes.cs">
+    <Compile Update="Models\DataModel\PrimitiveContainers.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PrimitiveContainers.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\DataModel\Primitives\MatrixTypes.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>MatrixTypes.tt</DependentUpon>
     </Compile>
-    <Compile Update="Models\DataModel\Fields\Primitives.cs">
+    <Compile Update="Models\DataModel\Primitives.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Primitives.tt</DependentUpon>
     </Compile>
-    <Compile Update="Models\DataModel\Fields\Vectors.cs">
+    <Compile Update="Models\DataModel\Primitives\Quaternions.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Quaternions.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Models\DataModel\Primitives\Vectors.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Vectors.tt</DependentUpon>

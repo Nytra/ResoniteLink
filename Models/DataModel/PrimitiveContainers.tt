@@ -9,12 +9,37 @@
 // Modify the .tt template instead!
 
 <#
-List<string> primitiveTypes = new List<string>
+List<string> standaloneTypes = new List<string>
 {
+    "byte",
+    "ushort",
+    "uint",
+    "ulong",
+
+    "sbyte",
+    "short",
+    "int",
+    "long",
+
     "float",
     "double",
 
     "decimal",
+
+    "bool",
+
+    "char",
+    "string",
+
+    "color",
+    "colorX",
+    "color32",
+};
+
+List<string> vectorTypes = new List<string>
+{
+    "float",
+    "double",
 
     "byte",
     "ushort",
@@ -27,10 +52,31 @@ List<string> primitiveTypes = new List<string>
     "long",
 
     "bool",
-
-    "char",
-    "string",
 };
+
+List<string> quaternionTypes = new List<string>
+{
+    "float",
+    "double",
+};
+
+List<string> matrixTypes = new List<string>
+{
+    "float",
+    "double",
+};
+
+List<string> primitiveTypes = new List<string>();
+
+primitiveTypes.AddRange(standaloneTypes);
+
+for(int dim = 2; dim <= 4; dim++)
+    primitiveTypes.AddRange(vectorTypes.Select(v => v + dim));
+
+primitiveTypes.AddRange(quaternionTypes.Select(v => v + "Q"));
+
+for(int dim = 2; dim <= 4; dim++)
+    primitiveTypes.AddRange(matrixTypes.Select(v => $"{v}{dim}x{dim}"));
 #>
 
 using System;
