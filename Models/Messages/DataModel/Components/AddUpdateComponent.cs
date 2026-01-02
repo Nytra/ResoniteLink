@@ -8,14 +8,8 @@ namespace ResoniteLink
     public abstract class AddUpdateComponent : Message
     {
         /// <summary>
-        /// The ID of the component that's being added/updated. When being added, this can be omitted.
-        /// The ID will be allocated by Resonite, but for any subsequent updates you'll need to fetch it back.
-        /// </summary>
-        [JsonPropertyName("componentId")]
-        public string ComponentID { get; set; }
-
-        /// <summary>
         /// The state of the component data. Any members that are not included will be left as is.
+        /// When updating the component, the ID must be specified!
         /// </summary>
         [JsonPropertyName("data")]
         public Component Data { get; set; }
