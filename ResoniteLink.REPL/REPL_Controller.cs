@@ -10,6 +10,8 @@ namespace ResoniteLink
 
         public Slot CurrentSlot { get; private set; }
 
+        int _idPool;
+
         public REPL_Controller(LinkInterface link)
         {
             _link = link;
@@ -86,6 +88,16 @@ namespace ResoniteLink
 
                     break;
 
+                case "listcomponents":
+                    Console.WriteLine("Component count: " + (CurrentSlot.Components?.Count ?? 0));
+
+                    for (int i = 0; i < (CurrentSlot.Components?.Count ?? 0); i++)
+                    {
+                        var component = CurrentSlot.Components[i];
+                        Console.WriteLine($"\t[{i}] {component.ComponentType} (ID: {component.ID})");
+                    }
+                    break;
+
                 case "selectchild":
                     if(!int.TryParse(arguments, out var childIndex))
                     {
@@ -100,6 +112,22 @@ namespace ResoniteLink
                     }
 
                     await SelectSlot(CurrentSlot.Children[childIndex].ID);
+
+                    break;
+
+                case "addchild":
+                    if(string.IsNullOrWhiteSpace(arguments))
+                    {
+                        Console.WriteLine("You must provide a name of the child");
+                        break;
+                    }
+
+                    // Add the child
+                    var childId = await AddChild(arguments.Trim());
+
+                    // Immediatelly select the new child
+                    if(childId != null)
+                        await SelectSlot(childId);
 
                     break;
 
@@ -149,6 +177,36 @@ namespace ResoniteLink
             }
 
             CurrentSlot = result.Data;
+        }
+
+        async Task<string> AddChild(string name)
+        {
+            // We allocate our own ID, so we can immediatelly select it after without having to fetch it back
+            var childId = $"REPL_{_idPool++:X}";
+
+            var result = await _link.AddSlot(new AddSlot()
+            {
+                Data = new Slot()
+                {
+                    // If this was left out, Resonite will allocate its own ID which we would not know
+                    // without fetching it back. But we can force a custom ID to avoid this!
+                    ID = childId,
+
+                    // We set the current slot as the parent
+                    Parent = new Reference() { TargetID = CurrentSlot.ID },
+
+                    // Set the new name immediatelly
+                    Name = new Field_string() { Value = name },
+                }
+            });
+
+            if (result.Success)
+                return childId;
+            else
+            {
+                Console.WriteLine($"Failed to add child: " + result.ErrorInfo);
+                return null;
+            }
         }
     }
 }
