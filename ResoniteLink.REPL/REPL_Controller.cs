@@ -288,7 +288,7 @@ namespace ResoniteLink
             }
 
             // Select the parent
-            await SelectSlot(CurrentSlot.Parent.ID);
+            await SelectSlot(CurrentSlot.Parent.TargetID);
         }
 
         void PrintComponentMembers()
