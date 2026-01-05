@@ -82,6 +82,8 @@ namespace ResoniteLink
                     break;
 
                 case "listcomponents":
+                    await RefreshCurrent();
+
                     Console.WriteLine("Component count: " + (CurrentSlot.Components?.Count ?? 0));
 
                     for (int i = 0; i < (CurrentSlot.Components?.Count ?? 0); i++)
