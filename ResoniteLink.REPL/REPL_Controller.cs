@@ -14,6 +14,8 @@ namespace ResoniteLink
 
         int _idPool;
 
+        string AllocateId() => $"REPL_{_idPool++:X}";
+
         public REPL_Controller(LinkInterface link)
         {
             _link = link;
@@ -138,6 +140,21 @@ namespace ResoniteLink
                     PrintComponentMembers();
                     break;
 
+                case "addcomponent":
+                    if (string.IsNullOrWhiteSpace(arguments))
+                    {
+                        Console.WriteLine("You must provide type of the component");
+                        break;
+                    }
+
+                    await RefreshCurrent();
+
+                    var componentId = await AddComponent(arguments);
+
+                    if (componentId != null)
+                        Console.WriteLine($"Added! ID: {componentId}");
+                    break;
+
                 case "addchild":
                     if(string.IsNullOrWhiteSpace(arguments))
                     {
@@ -247,10 +264,33 @@ namespace ResoniteLink
             PrintComponentMembers();
         }
 
+        async Task<string> AddComponent(string type)
+        {
+            var componentId = AllocateId();
+
+            var result = await _link.AddComponent(new AddComponent()
+            {
+                ContainerSlotId = CurrentSlot.ID,
+                Data = new Component()
+                {
+                    ComponentType = type.Trim(),
+                    ID = componentId
+                }
+            });
+
+            if (result.Success)
+                return componentId;
+            else
+            {
+                Console.WriteLine($"Failed to add component: " + result.ErrorInfo);
+                return null;
+            }
+        }
+
         async Task<string> AddChild(string name)
         {
             // We allocate our own ID, so we can immediatelly select it after without having to fetch it back
-            var childId = $"REPL_{_idPool++:X}";
+            var childId = AllocateId();
 
             var result = await _link.AddSlot(new AddSlot()
             {
