@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace ResoniteLink
 {
     public class REPL_Controller
     {
         LinkInterface _link;
+        ICommandIO _messaging;
 
         public Slot CurrentSlot { get; private set; }
         public Component CurrentComponent { get; private set; }
@@ -16,9 +18,10 @@ namespace ResoniteLink
 
         string AllocateId() => $"REPL_{_idPool++:X}";
 
-        public REPL_Controller(LinkInterface link)
+        public REPL_Controller(LinkInterface link, ICommandIO messaging)
         {
             _link = link;
+            _messaging = messaging;
         }
 
         public async Task RunLoop()
@@ -31,27 +34,24 @@ namespace ResoniteLink
 
             do
             {
-                PrintPrompt();
+                await PrintPrompt();
 
-                var command = Console.ReadLine();
+                var command = await _messaging.ReadCommand();
 
                 keepProcessing = await ProcessCommand(command);
             } while (keepProcessing);
         }
 
-        void PrintPrompt()
+        async Task PrintPrompt()
         {
-            var prevColor = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Cyan;
+            var str = new StringBuilder();
 
-            Console.Write($"Slot: {CurrentSlot.Name.Value} (ID: {CurrentSlot.ID})");
+            str.Append($"Slot: {CurrentSlot.Name.Value} (ID: {CurrentSlot.ID})");
 
             if (CurrentComponent != null)
-                Console.Write($" Component: {CurrentComponent.ComponentType} (ID: {CurrentComponent.ID})");
+                str.Append($" Component: {CurrentComponent.ComponentType} (ID: {CurrentComponent.ID})");
 
-            Console.Write(":");
-
-            Console.ForegroundColor = prevColor;
+            await _messaging.PrintPrompt(str.ToString());
         }
         
         async Task<bool> ProcessCommand(string command)
@@ -65,18 +65,18 @@ namespace ResoniteLink
             {
                 case "echo":
                     // Not necessary, but a good for sanity check
-                    Console.WriteLine(arguments);
+                    await _messaging.PrintLine(arguments);
                     break;
 
                 case "listchildren":
                     await RefreshCurrent();
 
-                    Console.WriteLine("Children count: " + (CurrentSlot.Children?.Count ?? 0));
+                    await _messaging.PrintLine("Children count: " + (CurrentSlot.Children?.Count ?? 0));
 
                     for(int i = 0; i < (CurrentSlot.Children?.Count ?? 0); i++)
                     {
                         var child = CurrentSlot.Children[i];
-                        Console.WriteLine($"\t[{i}] {child.Name.Value} (ID: {child.ID})");
+                        await _messaging.PrintLine($"\t[{i}] {child.Name.Value} (ID: {child.ID})");
                     }
 
                     break;
@@ -84,25 +84,25 @@ namespace ResoniteLink
                 case "listcomponents":
                     await RefreshCurrent();
 
-                    Console.WriteLine("Component count: " + (CurrentSlot.Components?.Count ?? 0));
+                    await _messaging.PrintLine("Component count: " + (CurrentSlot.Components?.Count ?? 0));
 
                     for (int i = 0; i < (CurrentSlot.Components?.Count ?? 0); i++)
                     {
                         var component = CurrentSlot.Components[i];
-                        Console.WriteLine($"\t[{i}] {component.ComponentType} (ID: {component.ID})");
+                        await _messaging.PrintLine($"\t[{i}] {component.ComponentType} (ID: {component.ID})");
                     }
                     break;
 
                 case "selectchild":
                     if(!int.TryParse(arguments, out var childIndex))
                     {
-                        Console.WriteLine("Could not parse child index");
+                        await _messaging.PrintError("Could not parse child index");
                         break;
                     }
 
                     if(childIndex < 0 || childIndex >= (CurrentSlot.Children?.Count ?? 0))
                     {
-                        Console.WriteLine("Child Index is out of range");
+                        await _messaging.PrintError("Child Index is out of range");
                         break;
                     }
 
@@ -113,13 +113,13 @@ namespace ResoniteLink
                 case "selectcomponent":
                     if (!int.TryParse(arguments, out var componentIndex))
                     {
-                        Console.WriteLine("Could not parse component index");
+                        await _messaging.PrintError("Could not parse component index");
                         break;
                     }
 
                     if (componentIndex < 0 || componentIndex >= (CurrentSlot.Components?.Count ?? 0))
                     {
-                        Console.WriteLine("Component Index is out of range");
+                        await _messaging.PrintError("Component Index is out of range");
                         break;
                     }
 
@@ -135,7 +135,7 @@ namespace ResoniteLink
 
                     if (CurrentComponent == null)
                     {
-                        Console.WriteLine("No component is selected");
+                        await _messaging.PrintError("No component is selected");
                         break;
                     }
 
@@ -145,7 +145,7 @@ namespace ResoniteLink
                 case "addcomponent":
                     if (string.IsNullOrWhiteSpace(arguments))
                     {
-                        Console.WriteLine("You must provide type of the component");
+                        await _messaging.PrintError("You must provide type of the component");
                         break;
                     }
 
@@ -154,13 +154,13 @@ namespace ResoniteLink
                     var componentId = await AddComponent(arguments);
 
                     if (componentId != null)
-                        Console.WriteLine($"Added! ID: {componentId}");
+                        await _messaging.PrintLine($"Added! ID: {componentId}");
                     break;
 
                 case "addchild":
                     if(string.IsNullOrWhiteSpace(arguments))
                     {
-                        Console.WriteLine("You must provide a name of the child");
+                        await _messaging.PrintError("You must provide a name of the child");
                         break;
                     }
 
@@ -169,7 +169,7 @@ namespace ResoniteLink
 
                     // Immediatelly select the new child
                     if (childId != null)
-                        Console.WriteLine($"Child added. ID: {childId}");
+                        await _messaging.PrintLine($"Child added. ID: {childId}");
                     break;
 
                 case "removeslot":
@@ -183,7 +183,7 @@ namespace ResoniteLink
                     {
                         if(CurrentComponent == null)
                         {
-                            Console.WriteLine("No component is currently selected. Either select component first or provide index of component to remove.");
+                            await _messaging.PrintError("No component is currently selected. Either select component first or provide index of component to remove.");
                             break;
                         }
 
@@ -193,13 +193,13 @@ namespace ResoniteLink
                     {
                         if (!int.TryParse(arguments, out componentIndex))
                         {
-                            Console.WriteLine("Could not parse component index");
+                            await _messaging.PrintError("Could not parse component index");
                             break;
                         }
 
                         if (componentIndex < 0 || componentIndex >= (CurrentSlot.Components?.Count ?? 0))
                         {
-                            Console.WriteLine("Component Index is out of range");
+                            await _messaging.PrintError("Component Index is out of range");
                             break;
                         }
 
@@ -212,7 +212,7 @@ namespace ResoniteLink
                 case "selectparent":
                     if(CurrentSlot.Parent.TargetID == null)
                     {
-                        Console.WriteLine("Root is topmost slot, cannot select parent");
+                        await _messaging.PrintError("Root is topmost slot, cannot select parent");
                         break;
                     }
 
@@ -223,7 +223,7 @@ namespace ResoniteLink
                 case "set":
                     if(CurrentComponent == null)
                     {
-                        Console.WriteLine("No component is selected");
+                        await _messaging.PrintError("No component is selected");
                         break;
                     }
 
@@ -231,7 +231,7 @@ namespace ResoniteLink
 
                     if(setValue == null)
                     {
-                        Console.WriteLine("Invalid number of arguments. Usage: set <MemberName> <Value as JSON>");
+                        await _messaging.PrintError("Invalid number of arguments. Usage: set <MemberName> <Value as JSON>");
                         break;
                     }
 
@@ -243,7 +243,7 @@ namespace ResoniteLink
                     return false;
 
                 default:
-                    Console.WriteLine($"Unknown command: {keyword}");
+                    await _messaging.PrintError($"Unknown command: {keyword}");
                     break;
             }
 
@@ -271,7 +271,7 @@ namespace ResoniteLink
             // If we failed (e.g. slot can be deleted in the meanwhile or the ID is wrong), we reset back to root
             if(!result.Success)
             {
-                Console.WriteLine($"Error! Resetting back to root");
+                await _messaging.PrintError($"Error! Resetting back to root");
                 await SelectSlot(Slot.ROOT_SLOT_ID);
             }
 
@@ -290,13 +290,13 @@ namespace ResoniteLink
             // If we failed (e.g. slot can be deleted in the meanwhile or the ID is wrong), we reset back to root
             if (!result.Success)
             {
-                Console.WriteLine($"Error! Failed to fetch component data: {result.ErrorInfo}");
+                await _messaging.PrintError($"Error! Failed to fetch component data: {result.ErrorInfo}");
                 return;
             }
 
             CurrentComponent = result.Data;
 
-            PrintComponentMembers();
+            await PrintComponentMembers();
         }
 
         async Task<string> AddComponent(string type)
@@ -317,7 +317,7 @@ namespace ResoniteLink
                 return componentId;
             else
             {
-                Console.WriteLine($"Failed to add component: " + result.ErrorInfo);
+                await _messaging.PrintError($"Failed to add component: " + result.ErrorInfo);
                 return null;
             }
         }
@@ -347,7 +347,7 @@ namespace ResoniteLink
                 return childId;
             else
             {
-                Console.WriteLine($"Failed to add child: " + result.ErrorInfo);
+                await _messaging.PrintError($"Failed to add child: " + result.ErrorInfo);
                 return null;
             }
         }
@@ -361,7 +361,7 @@ namespace ResoniteLink
 
             if(!result.Success)
             {
-                Console.WriteLine($"Failed to remove slot: {result.ErrorInfo}");
+                await _messaging.PrintError($"Failed to remove slot: {result.ErrorInfo}");
                 return;
             }
 
@@ -369,39 +369,39 @@ namespace ResoniteLink
             await SelectSlot(CurrentSlot.Parent.TargetID);
         }
 
-        void PrintComponentMembers()
+        async Task PrintComponentMembers()
         {
             if (CurrentComponent == null)
                 throw new InvalidOperationException("No component is currently selected");
 
             if(CurrentComponent == null)
             {
-                Console.WriteLine("Component was destroyed in the meanwhile");
+                await _messaging.PrintError("Component was destroyed in the meanwhile");
                 return;
             }
 
             // This should be pretty much impossible to happen, but let's handle it anyways
             if(CurrentComponent.Members == null)
             {
-                Console.WriteLine("Component has no members");
+                await _messaging.PrintError("Component has no members");
                 return;
             }
 
             foreach(var member in CurrentComponent.Members)
-                PrintMember(member.Value, member.Key);
+                await PrintMember(member.Value, member.Key);
         }
 
-        void PrintMember(Member member, string name, int indentLevel = 0)
+        async Task PrintMember(Member member, string name, int indentLevel = 0)
         {
-            Console.Write($"{name} ({member.ID}): ".PadLeft(indentLevel, ' '));
+            await _messaging.Print($"{name} ({member.ID}): ".PadLeft(indentLevel, ' '));
 
             switch (member)
             {
                 case Field field:
                     if (field.BoxedValue is null)
-                        Console.WriteLine("null");
+                        await _messaging.PrintLine("null");
                     else
-                        Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(field.BoxedValue, new JsonSerializerOptions()
+                        await _messaging.PrintLine(System.Text.Json.JsonSerializer.Serialize(field.BoxedValue, new JsonSerializerOptions()
                         {
                             NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowNamedFloatingPointLiterals,
                             // Since most of these are just fields, keep it compact
@@ -410,31 +410,31 @@ namespace ResoniteLink
                     break;
 
                 case Reference reference:
-                    Console.Write($"Target ({reference.TargetType}): ");
+                    await _messaging.Print($"Target ({reference.TargetType}): ");
 
                     if (reference.TargetID == null)
-                        Console.WriteLine("null");
+                        await _messaging.PrintLine("null");
                     else
-                        Console.WriteLine(reference.TargetID);
+                        await _messaging.PrintLine(reference.TargetID);
                     break;
 
                 case SyncList list:
-                    Console.WriteLine($"<List (Count: {list.Elements?.Count ?? 0})>");
+                    await _messaging.PrintLine($"<List (Count: {list.Elements?.Count ?? 0})>");
 
                     if (list.Elements != null)
                         for (int i = 0; i < list.Elements.Count; i++)
-                            PrintMember(list.Elements[i], $"[{i}]", indentLevel + 1);
+                            await PrintMember(list.Elements[i], $"[{i}]", indentLevel + 1);
                     break;
 
                 case SyncObject syncObject:
-                    Console.WriteLine("<Object>");
+                    await _messaging.PrintLine("<Object>");
 
                     foreach (var subMember in syncObject.Members)
-                        PrintMember(subMember.Value, subMember.Key, indentLevel + 1);
+                        await PrintMember(subMember.Value, subMember.Key, indentLevel + 1);
                     break;
 
                 default:
-                    Console.WriteLine("Unsupported member type: " + member.GetType().Name);
+                    await _messaging.PrintLine("Unsupported member type: " + member.GetType().Name);
                     break;
             }
         }
@@ -446,7 +446,7 @@ namespace ResoniteLink
 
             if(!CurrentComponent.Members.TryGetValue(name, out var member))
             {
-                Console.WriteLine($"Member '{name}' doesn't exist");
+                await _messaging.PrintLine($"Member '{name}' doesn't exist");
                 return;
             }
 
@@ -472,7 +472,7 @@ namespace ResoniteLink
                     }
                     catch(Exception ex)
                     {
-                        Console.WriteLine($"Failed to parse value: {ex.Message}");
+                        await _messaging.PrintError($"Failed to parse value: {ex.Message}");
                         return;
                     }
                     break;
@@ -482,7 +482,7 @@ namespace ResoniteLink
                     break;
 
                 default:
-                    Console.WriteLine($"Setting members of type {GetType().Name} is not supported");
+                    await _messaging.PrintError($"Setting members of type {GetType().Name} is not supported");
                     return;
             }
 
@@ -500,7 +500,7 @@ namespace ResoniteLink
             });
 
             if (!result.Success)
-                Console.WriteLine($"Error: " + result.ErrorInfo);
+                await _messaging.PrintError($"Error: " + result.ErrorInfo);
         }
 
         async Task RemoveComponent(string componentId)
@@ -511,7 +511,7 @@ namespace ResoniteLink
             });
 
             if (!result.Success)
-                Console.WriteLine($"Failed to remove component: {result.ErrorInfo}");
+                await _messaging.PrintError($"Failed to remove component: {result.ErrorInfo}");
             else if (CurrentComponent?.ID == componentId)
                 CurrentComponent = null;
         }

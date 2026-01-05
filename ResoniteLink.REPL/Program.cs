@@ -1,4 +1,5 @@
 ﻿using ResoniteLink;
+using ResoniteLink.REPL;
 
 Console.Write("Connect to (localhost port or ws:// URL): ");
 
@@ -30,7 +31,7 @@ try
     Console.WriteLine("Connected.");
 
     // We are connected, we can start REPL loop now
-    var repl = new REPL_Controller(link);
+    var repl = new REPL_Controller(link, new ConsoleCommandIO());
 
     // Run the command processing loop until it finishes
     await repl.RunLoop();
