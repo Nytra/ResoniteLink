@@ -44,6 +44,154 @@ This is meant to enhance the interoperability and open new workflows, but not re
 ## Why the name "ResoniteLink"?
 We were considering "cool" unique names. However we ended up following similar philosophy to naming "ResonitePackage" - we want this tool to be recognizable as Resonite-related tool/protocol at first sight and a "cool name" would obscure that fact.
 
+# Examples
+Here are some example JSON messages to give you some idea for the protocol. We recommend looking at the Models folder in the repository to get full understanding of supported messages.
+
+## Querying Slot data
+To fetch information about the scene hierarchy, you can use the `getSlot` message:
+
+```JSON
+{
+    "$type" : "getSlot",
+    "slotId" : "Root",
+    "includeComponentData" : false,
+    "depth" : 0
+}
+```
+
+Here's a few things:
+`slotId` - ID of the slot we are fetching. Root slot has special ID "Root", otherwise you get the ID's of other slots as a result of this query.
+`includeComponentData` - When true, the response will contain full data of components on the fetched slots. This can be useful if you want to get the data as single bulk, but can be inefficient if you're fetching it piece by piece. When false, the response will only include reference data for the components (their type & ID). You can fetch data for individual components later. 
+`depth` - Indicates how deep to fully fetch slots. 0 will only fully fetch the requested slot. Any children will only have basic reference info (Name & ID's). -1 will fetch as deep as possible. Doing -1 at Root slot will fetch the entire scene hierarchy
+
+## Adding a Slot
+You can add new slots! This is a bit more involved, as you need to specify more things. However what makes this easier is that any parameters that you omit are left to defaults.
+
+```JSON
+{
+    "$type" : "addSlot",
+    "data" : {
+        "id" : "MySDK_0",
+        "parent" : {
+            "$type" : "reference",
+            "targetId" : "Root",
+        }
+        "name" : {
+            "$type" : "string",
+            "value" : "Hello from MySDK!"
+        },
+        "position" : {
+            "$type" : "float3",
+            "value" {
+                "x" : 0,
+                "y" : 1.5,
+                "z" : 10
+            }
+        }
+    }
+}
+```
+
+`data` - This provides the actual definition of the Slot. This is the same definition you get when querying slot data too - the model is shared!
+`data.id` - The ID of the new Slot. You can provide your own (see section below for details) or you can omit this and let Resonite allocate this.
+`data.parent.targetId` - The ID of the parent slot for this slot. In this example it's just Root - you could omit this, as Root will be the default, but this is how you can set the parent to any slot.
+`data.name.value` - You can name the new slot when creating it!
+`data.position.value` - You can position the new slot when creating it too! We omitted rotation, scale and other fields here - they'll just be at defaults.
+
+## Updating a Slot
+In previous example we created a slot. Let's say we want to update its scale. We can send another message, that uses the same schema for slot definition - we only include the properties that we want to change. Anything that's not included will be left as-is.
+
+```JSON
+{
+    "$type" : "updateSlot",
+    "data" : {
+        "id" : "MySDK_0",
+        "scale" : {
+            "$type" : "float3",
+            "value" : {
+                "x" : 2.5,
+                "y" : 2.5,
+                "z" : 2.5
+            }
+        }
+    }
+}
+```
+
+`data` - This is the same model when adding slot or when getting slot data when querying them!
+`data.id` - For this message, this is MANDATORY! We are updating existing slot, so Resonite needs to know which one to update
+`data.scale` - We're updating the scale of the slot, so it's the only thing we need to include. Everything else can be left as-is
+
+## Attaching a component
+Let's attach a component to our new slot!
+
+```JSON
+{
+    "$type" : "addComponent",
+    "containerSlotId" : "MySDK_0",
+    "data" : {
+        "id" : "MySDK_1",
+        "componentType" : "[FrooxEngine]FrooxEngine.Grabbable",
+        "members" : {
+            "Scalable" : {
+                "$type" : "bool",
+                "value" : true
+            }
+        }
+    }
+}
+```
+
+`containerSlotId` - This is MANDATORY for adding components! Resonite needs to know which slot to attach them to.
+`data` - This is the component definition. This is same model as you get when querying component data
+`data.id` - This is optional when adding a component, similarly to adding a slot. We provide our own ID so we can easily reference it later.
+`data.componentType` - This is also MANDATORY when adding a component - we must specify the type. The syntax is the same you'd use within Resonite when writing types in the componet attacher. You can technically specify this when updating the component later too, but it's NOT RECOMMENDED - if you specify different type, it will fail, because you can't change component type at runtime.
+`data.members` - This is a dictionary that allows you to define the values for component's members. Their names match 1:1 to how you'd see them in Resonite inspector
+`data.members.Scalable.value` - We're setting the Scalable field on the Grabbable component to true. Everything else is left at default.
+
+## Updating fields on components
+If you want to update fields on existing components (whether you added them or not), just send a component update! Let's say we changed our mind and we want the component to no longer be Scalable.
+
+```JSON
+{
+    "$type" : "updateComponent",
+    "data" : {
+        "id" : "MySDK_1",
+        "members" : {
+            "Scalable" : {
+                "$type" : "bool",
+                "value" : false
+            }
+        }
+    }
+}
+```
+
+`data.id` - Since we're updating existing component, providing its ID is now MANDATORY
+
+## Removing Slot
+Let's say we want to clean up now and remove the slot we made. This is very easy:
+
+```JSON
+{
+    "$type" : "removeSlot",
+    "slotId" : "MySDK_0"
+}
+```
+
+`slotId` - Pretty self explanatory. The ID of the slot we want to remove!
+
+## How ID's work
+ID's in ResoniteLink are strings and can be allocated either by Resonite or the client (e.g. your tool).
+
+If you create object (slot, component) through ResoniteLink, you can assign it your own ID. You must take care not to collide with another ID - prefixing it with a custom string will often work well. Resonite will then remember this ID during the ResoniteLink session. This saves you from fetching the data back after creating objects and allows you to set references to new objects as part of the creation.
+
+You can also leave ID to be null when creating objects - Resonite will then allocate an ID. You'll need to query the object to learn this ID.
+
+Any Resonite ID's are prefixed with "Reso_". It's NOT recommended to use this prefix for ID's you'll allocate.
+
+The ID's are NOT persistent. After saving the world and loading it again, they will be different.
+
 # What is purpose of this repository?
 There are two core purposes of this repository:
 
@@ -98,11 +246,13 @@ If you'd like to help us and other community members, there's a number of ways t
 ## Contributing to this repository
 We'll accept certain contributions to this repository if they meet our quality standards. Such as:
 - Improving documentation of the models
+- Writing JSON schema (we currently don't provide this, but feel free to contribute this!)
 - Adding core helper/utility classes
     - E.g. analogous to the REPL_Controller or LinkInterface
     - They need to be general and reusable components - if they are very use-case specific, we might recommend making a separate library instead
 - Adding helper methods to the models
     - E.g. to make certain common interactions easier (e.g. simpler parsing for engine primitives)
+- Writing more examples & guides
 
 We reserve right to reject any contributions if we feel they are not suitable for this repository - however you can always publish them as your own library!
 
