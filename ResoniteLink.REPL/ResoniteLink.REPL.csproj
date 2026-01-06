@@ -5,6 +5,15 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>YellowDogMan.ResoniteLink.REPL</PackageId>
+    <Title>ResoniteLink REPL</Title>
+    <Authors>Yellow Dog Man Studios S.R.O</Authors>
+    <Description>Twitch chat integration for ResoniteLink.</Description>
+    <Copyright>2026 Yellow Dog Man Studios S.R.O</Copyright>
+    <PackageProjectUrl>https://github.com/Yellow-Dog-Man/ResoniteLink</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/Yellow-Dog-Man/ResoniteLink/blob/master/LICENSE.txt</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/Yellow-Dog-Man/ResoniteLink</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>

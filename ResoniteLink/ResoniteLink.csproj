@@ -2,6 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>YellowDogMan.ResoniteLink</PackageId>
+    <Title>ResoniteLink</Title>
+    <Authors>Yellow Dog Man Studios S.R.O</Authors>
+    <Description>Main ResoniteLink library and reference implementation.</Description>
+    <Copyright>2026 Yellow Dog Man Studios S.R.O</Copyright>
+    <PackageProjectUrl>https://github.com/Yellow-Dog-Man/ResoniteLink</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/Yellow-Dog-Man/ResoniteLink/blob/master/LICENSE.txt</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/Yellow-Dog-Man/ResoniteLink</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
