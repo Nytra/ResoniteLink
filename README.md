@@ -61,7 +61,9 @@ To fetch information about the scene hierarchy, you can use the `getSlot` messag
 
 Here's a few things:
 `slotId` - ID of the slot we are fetching. Root slot has special ID "Root", otherwise you get the ID's of other slots as a result of this query.
+
 `includeComponentData` - When true, the response will contain full data of components on the fetched slots. This can be useful if you want to get the data as single bulk, but can be inefficient if you're fetching it piece by piece. When false, the response will only include reference data for the components (their type & ID). You can fetch data for individual components later. 
+
 `depth` - Indicates how deep to fully fetch slots. 0 will only fully fetch the requested slot. Any children will only have basic reference info (Name & ID's). -1 will fetch as deep as possible. Doing -1 at Root slot will fetch the entire scene hierarchy
 
 ## Adding a Slot
@@ -93,9 +95,13 @@ You can add new slots! This is a bit more involved, as you need to specify more 
 ```
 
 `data` - This provides the actual definition of the Slot. This is the same definition you get when querying slot data too - the model is shared!
+
 `data.id` - The ID of the new Slot. You can provide your own (see section below for details) or you can omit this and let Resonite allocate this.
+
 `data.parent.targetId` - The ID of the parent slot for this slot. In this example it's just Root - you could omit this, as Root will be the default, but this is how you can set the parent to any slot.
+
 `data.name.value` - You can name the new slot when creating it!
+
 `data.position.value` - You can position the new slot when creating it too! We omitted rotation, scale and other fields here - they'll just be at defaults.
 
 ## Updating a Slot
@@ -119,7 +125,9 @@ In previous example we created a slot. Let's say we want to update its scale. We
 ```
 
 `data` - This is the same model when adding slot or when getting slot data when querying them!
+
 `data.id` - For this message, this is MANDATORY! We are updating existing slot, so Resonite needs to know which one to update
+
 `data.scale` - We're updating the scale of the slot, so it's the only thing we need to include. Everything else can be left as-is
 
 ## Attaching a component
@@ -143,10 +151,15 @@ Let's attach a component to our new slot!
 ```
 
 `containerSlotId` - This is MANDATORY for adding components! Resonite needs to know which slot to attach them to.
+
 `data` - This is the component definition. This is same model as you get when querying component data
+
 `data.id` - This is optional when adding a component, similarly to adding a slot. We provide our own ID so we can easily reference it later.
+
 `data.componentType` - This is also MANDATORY when adding a component - we must specify the type. The syntax is the same you'd use within Resonite when writing types in the componet attacher. You can technically specify this when updating the component later too, but it's NOT RECOMMENDED - if you specify different type, it will fail, because you can't change component type at runtime.
+
 `data.members` - This is a dictionary that allows you to define the values for component's members. Their names match 1:1 to how you'd see them in Resonite inspector
+
 `data.members.Scalable.value` - We're setting the Scalable field on the Grabbable component to true. Everything else is left at default.
 
 ## Updating fields on components
