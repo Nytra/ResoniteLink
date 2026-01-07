@@ -8,6 +8,11 @@ This stage won't likely run long. Once we're happy that we got some feedback, we
 # Nuget Package
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![NuGet](https://img.shields.io/nuget/v/YellowDogMan.ResoniteLink.svg)](https://www.nuget.org/packages/YellowDogMan.ResoniteLink) [![GitHub deployments](https://img.shields.io/github/deployments/Yellow-Dog-Man/ResoniteLink/github-pages?style=flat&label=Documentation)](https://yellow-dog-man.github.io/ResoniteLink/)
 
+# Community project/library links
+There are none yet! ;(
+
+If you build something cool, let us know (just create an issue on this repository) with a link and we'll add it when we can!
+
 # What is Resonite?
 Resonite is a social VR sandbox where you can build anything in-game, realtime and with realtime collaboration and implicit network synchronization. It is like being inside a virtual universe / game-engine that you have control over and that you can build together with your friends or colleagues.
 
@@ -295,8 +300,3 @@ However, in a number of cases it's easier to run the code to generate Resonite d
 
 # How can I help?
 There are many ways to help this project! Check the [Contributing](https://github.com/Yellow-Dog-Man/ResoniteLink?tab=contributing-ov-file) tab to learn more!
-
-# Community project/library links
-There are none yet! ;(
-
-If you build something cool, let us know (just create an issue on this repository) with a link and we'll add it when we can!
