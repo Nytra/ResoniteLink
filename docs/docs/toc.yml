@@ -1,5 +1,8 @@
+- name: Basics
 - name: Getting Started
   href: started.md
+
+- name: APIs
 - name: WebSocket API
   items:
     - href: websocket/components.md
