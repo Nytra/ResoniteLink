@@ -9,3 +9,8 @@
   items:
     - href: websocket/components.md
     - href: websocket/slots.md
+
+- name: Meta
+- name: GitHub
+  items:
+    - href: meta/actions.md
