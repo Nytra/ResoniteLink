@@ -102,6 +102,10 @@ We will be using this library for other official projects, such as Unity SDK for
 # Getting started (quick examples)
 Here are some example JSON messages to give you some idea for the protocol.
 
+You can also watch a video walkthrough on how to get started with this!
+
+[![ResoniteLink video showcase](https://img.youtube.com/vi/PpET4kpVuAI/0.jpg)](https://www.youtube.com/watch?v=PpET4kpVuAI)
+
 We recommend looking at the [Models folder](ResoniteLink/Models) in the repository to get full understanding of supported messages and [reading the documentation.](https://yellow-dog-man.github.io/ResoniteLink/).
 
 ## Querying Slot data
