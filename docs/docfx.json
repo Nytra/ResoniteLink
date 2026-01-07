@@ -40,7 +40,9 @@
       "_appName": "ResoniteLink Documentation",
       "_appTitle": "ResoniteLink Documentation",
       "_enableSearch": true,
-      "pdf": false
+      "pdf": false,
+      "baseUrl": "https://yellow-dog-man.github.io/ResoniteLink/",
+      "_appFooter": "Copyright &copy Yellow Dog Man Studios S.R.O & Contributors"
     }
   }
 }
