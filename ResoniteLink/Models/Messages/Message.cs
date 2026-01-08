@@ -17,6 +17,10 @@ namespace ResoniteLink
     [JsonDerivedType(typeof(AddComponent), "addComponent")]
     [JsonDerivedType(typeof(UpdateComponent), "updateComponent")]
     [JsonDerivedType(typeof(RemoveComponent), "removeComponent")]
+
+    [JsonDerivedType(typeof(ImportTextureFile), "importTextureFile")]
+    [JsonDerivedType(typeof(ImportTextureRawData), "importTextureRawData")]
+    [JsonDerivedType(typeof(ImportTextureRawDataHDR), "importTextureRawDataHDR")]
     public abstract class Message
     {
         /// <summary>
