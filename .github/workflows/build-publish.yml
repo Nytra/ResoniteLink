@@ -11,6 +11,9 @@ on:
     types:
       - published
 
+env:
+  IS_RELEASE: ${{ github.event_name == 'release' && github.event.action == 'published' }}
+
 jobs:
   build-publish-resonitelink:
     name: 'Build and publish library'
@@ -24,14 +27,14 @@ jobs:
         uses: actions/checkout@v6
 
       - name: 'Build ResoniteLink'
-        if: ${{ github.event_name != 'release' }}
+        if: ${{ env.IS_RELEASE == 'false' }}
         uses: Yellow-Dog-Man/composite-actions-templates/.github/actions/dotnet-build@main
         with:
           dotnet-build-type: 'pack'
           dotnet-project-path: '${{ env.PROJECT_PATH }}'
 
       - name: 'Publish ResoniteLink'
-        if: ${{ github.event_name == 'release' && github.event.action == 'published' }}
+        if: ${{ !env.IS_RELEASE == 'true' }}
         uses: Yellow-Dog-Man/composite-actions-templates/.github/actions/dotnet-build-push-nuget/@main
         with:
           dotnet-nuget-auth-token: ${{ secrets.NUGET_TOKEN }}
@@ -50,24 +53,24 @@ jobs:
         uses: actions/checkout@v6
 
       - name: 'Build REPL'
-        if: ${{ github.event_name != 'release' }}
+        if: ${{ !env.IS_RELEASE == 'false' }}
         uses: Yellow-Dog-Man/composite-actions-templates/.github/actions/dotnet-build@main
         with:
           dotnet-project-path: '${{ env.PROJECT_PATH }}'
 
       - name: 'Build REPL for release'
-        if: ${{ github.event_name == 'release' && github.event.action == 'published' }}
+        if: ${{ env.IS_RELEASE == 'true' }}
         uses: Yellow-Dog-Man/composite-actions-templates/.github/actions/dotnet-build@main
         with:
           dotnet-project-path: '${{ env.PROJECT_PATH }}'
           dotnet-build-args: '-p:Version=${{ github.ref_name }} -o ${{ github.workspace }}/repl'
 
       - name: 'Package REPL for release'
-        if: ${{ github.event_name == 'release' && github.event.action == 'published' }}
+        if: ${{ env.IS_RELEASE == 'true' }}
         run: zip -r repl.zip ${{ env.PROJECT_PATH }}/*
 
       - name: 'Attach REPL package to release'
-        if: ${{ github.event_name == 'release' && github.event.action == 'published' }}
+        if: ${{ env.IS_RELEASE == 'true' }}
         uses: softprops/action-gh-release@v2
         with:
           files: 'repl.zip'
