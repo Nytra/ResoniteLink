@@ -432,6 +432,10 @@ namespace ResoniteLink
                         await _messaging.PrintLine(reference.TargetID);
                     break;
 
+                case EmptyElement emptyElement:
+                    await _messaging.PrintLine("<empty element>");
+                    break;
+
                 case SyncList list:
                     await _messaging.PrintLine($"<List (Count: {list.Elements?.Count ?? 0})>");
 
