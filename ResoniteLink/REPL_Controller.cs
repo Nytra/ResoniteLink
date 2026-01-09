@@ -50,7 +50,7 @@ namespace ResoniteLink
             {
                 await PrintPrompt();
 
-                var command = await _messaging.ReadCommand();
+                var command = await CommandParser.ReadCommand();
 
                 keepProcessing = await ProcessCommand(command);
             } while (keepProcessing);
@@ -68,9 +68,10 @@ namespace ResoniteLink
             await _messaging.PrintPrompt(str.ToString());
         }
         
-        async Task<bool> ProcessCommand((CommandType, string) command)
+        async Task<bool> ProcessCommand(Command command)
         {
-            var (commandType, arguments) = command;
+            var commandType = command.CommandType;
+            var arguments = command.Arguments;
 
             switch(commandType)
             {
@@ -238,7 +239,7 @@ namespace ResoniteLink
                         break;
                     }
 
-                    _messaging.SplitCommand(arguments, out var memberName, out var setValue);
+                    CommandParser.SplitCommand(arguments, out var memberName, out var setValue);
 
                     if(setValue == null)
                     {
@@ -272,7 +273,8 @@ namespace ResoniteLink
                     return false;
 
                 default:
-                    // Unknown command, do nothing. Error was already printed in ReadCommand
+                    // Unknown command
+                    await _messaging.PrintError($"Unknown command: '{arguments}'");
                     break;
             }
 
