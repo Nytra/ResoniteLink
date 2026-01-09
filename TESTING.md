@@ -3,7 +3,7 @@
 ResoniteLink is tested using `xunit` v2 (for compatability reasons with ResonitLinks target framework being `netstandard2.0`). See [Getting Started with xUnit.net v2](https://xunit.net/docs/getting-started/v2/getting-started) for more information on this framework.
 
 Tests for the whole project are stored within the `ResoniteLink.Tests` project, and the folder structure is as follows:
-- `ResoniteLink.Tests/ResoniteLink`: contains tests for the `ResoniteLink` project (to be added in future)
+- `ResoniteLink.Tests/ResoniteLink`: contains tests for the `ResoniteLink` project
 - `ResoniteLink.Tests/REPL`: contains tests for the `ResoniteLink.REPL` project
 
 ## Running Tests
