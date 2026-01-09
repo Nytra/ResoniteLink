@@ -554,7 +554,7 @@ namespace ResoniteLink
 
         async Task ImportTexture(string path)
         {
-            var result = await _link.ImportTexture(new ImportTextureFile()
+            var result = await _link.ImportTexture(new ImportTexture2DFile()
             {
                 FilePath = path
             });

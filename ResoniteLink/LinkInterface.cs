@@ -159,8 +159,8 @@ namespace ResoniteLink
         public Task<Response> UpdateComponent(UpdateComponent request) => SendMessage<UpdateComponent, Response>(request);
         public Task<Response> RemoveComponent(RemoveComponent request) => SendMessage<RemoveComponent, Response>(request);
 
-        public Task<AssetData> ImportTexture(ImportTextureFile request) => SendMessage<ImportTextureFile, AssetData>(request);
-        public Task<AssetData> ImportTexture(ImportTextureRawData request) => SendMessage<ImportTextureRawData, AssetData>(request);
+        public Task<AssetData> ImportTexture(ImportTexture2DFile request) => SendMessage<ImportTexture2DFile, AssetData>(request);
+        public Task<AssetData> ImportTexture(ImportTexture2DRawData request) => SendMessage<ImportTexture2DRawData, AssetData>(request);
 
         #endregion
 

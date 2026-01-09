@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace ResoniteLink
 {
-    public abstract class ImportTextureRawDataBase<C> : BinaryPayloadMessage
+    public abstract class ImportTexture2DRawDataBase<C> : BinaryPayloadMessage
         where C : unmanaged
     {
         /// <summary>

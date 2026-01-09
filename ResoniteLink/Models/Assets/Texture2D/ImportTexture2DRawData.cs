@@ -9,7 +9,7 @@ namespace ResoniteLink
     /// <summary>
     /// Imports texture from raw 8-bit color data. Resonite will take care of encoding the data into a file format.
     /// </summary>
-    public class ImportTextureRawData : ImportTextureRawDataBase<color32>
+    public class ImportTexture2DRawData : ImportTexture2DRawDataBase<color32>
     {
         /// <summary>
         /// Color profile of the texture color data

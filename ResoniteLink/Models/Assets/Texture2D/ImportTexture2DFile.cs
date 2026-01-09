@@ -10,7 +10,7 @@ namespace ResoniteLink
     /// format supported by Resonite, otherwise this will fail. 
     /// If you are unsure if the file format is supported, send raw texture data instead.
     /// </summary>
-    public class ImportTextureFile : Message
+    public class ImportTexture2DFile : Message
     {
         /// <summary>
         /// Path of the texture file to import
