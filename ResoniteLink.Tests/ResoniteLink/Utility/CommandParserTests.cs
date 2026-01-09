@@ -1,4 +1,5 @@
-
+using Xunit;
+using ResoniteLink;
 
 namespace ResoniteLink.Tests.ResoniteLink
 {
