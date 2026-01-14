@@ -9,9 +9,16 @@ This stage won't likely run long. Once we're happy that we got some feedback, we
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![NuGet](https://img.shields.io/nuget/v/YellowDogMan.ResoniteLink.svg)](https://www.nuget.org/packages/YellowDogMan.ResoniteLink) [![GitHub deployments](https://img.shields.io/github/deployments/Yellow-Dog-Man/ResoniteLink/github-pages?style=flat&label=Documentation)](https://yellow-dog-man.github.io/ResoniteLink/)
 
 # Community project/library links
-There are none yet! ;(
 
-If you build something cool, let us know (just create an issue on this repository) with a link and we'll add it when we can!
+There are a few community projects built around or with ResoniteLink:
+
+| Repository                                                                            | Language | Description                                                     |
+|---------------------------------------------------------------------------------------|----------|-----------------------------------------------------------------|
+| [RobertBaruch/pyresonitelink](https://github.com/RobertBaruch/pyresonitelink)         | Python   | Python bindings for ResoniteLink                                |
+| [JackTheFoxOtter/ResoniteLink.py](https://github.com/JackTheFoxOtter/ResoniteLink.py) | Python   | Python wrapper for ResoniteLink (still under heavy development) |
+| [Earthmark/ResoLink-rs](https://github.com/Earthmark/ResoLink-rs)                     | Rust     | Rust bindings and GRPC bridge for ResoniteLink.                 |
+
+If you build something cool, let us know (just create an issue on this repository) with a link, and we'll add it when we can!
 
 # What is Resonite?
 Resonite is a social VR sandbox where you can build anything in-game, realtime and with realtime collaboration and implicit network synchronization. It is like being inside a virtual universe / game-engine that you have control over and that you can build together with your friends or colleagues.
