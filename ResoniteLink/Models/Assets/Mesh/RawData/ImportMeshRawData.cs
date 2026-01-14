@@ -62,6 +62,13 @@ namespace ResoniteLink
         public List<SubmeshRawData> Submeshes { get; set; }
 
         /// <summary>
+        /// Blendshapes of this mesh.
+        /// These allow modifying the vertex positions, normals & tangents for animations such as facial expressions.
+        /// </summary>
+        [JsonPropertyName("blendshapes")]
+        public List<BlendShapeRawData> BlendShapes { get; set; }
+
+        /// <summary>
         /// Bones of the mesh when data represents a skinned mesh.
         /// These will be referred to by their index from vertex data.
         /// </summary>
@@ -151,16 +158,26 @@ namespace ResoniteLink
 
             _boneWeights = BufferSegment<BoneWeight>.AllocateBuffer(VertexCount * BoneWeightCount, ref offset);
 
-            foreach (var submesh in Submeshes)
-                submesh.ComputeBufferOffsets(ref offset);
+            if(Submeshes != null)
+                foreach (var submesh in Submeshes)
+                    submesh.ComputeBufferOffsets(ref offset);
+
+            if(BlendShapes != null)
+                foreach(var blendshape in BlendShapes)
+                    blendshape.ComputeBufferOffsets(this, ref offset);
 
             return offset;
         }
 
         void AssignBuffers()
         {
-            foreach (var submesh in Submeshes)
-                submesh.AssignBuffer(RawBinaryPayload);
+            if(Submeshes != null)
+                foreach (var submesh in Submeshes)
+                    submesh.AssignBuffer(RawBinaryPayload);
+
+            if(BlendShapes != null)
+                foreach(var blendshape in BlendShapes)
+                    blendshape.AssignBuffer(RawBinaryPayload);
         }
     }
 }

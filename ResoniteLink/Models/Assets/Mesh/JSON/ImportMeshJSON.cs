@@ -33,5 +33,12 @@ namespace ResoniteLink
         /// </summary>
         [JsonPropertyName("bones")]
         public List<Bone> Bones { get; set; }
+
+        /// <summary>
+        /// Blendshapes of this mesh.
+        /// These allow modifying the vertex positions, normals & tangents for animations such as facial expressions.
+        /// </summary>
+        [JsonPropertyName("blendshapes")]
+        public List<BlendShape> BlendShapes { get; set; }
     }
 }
