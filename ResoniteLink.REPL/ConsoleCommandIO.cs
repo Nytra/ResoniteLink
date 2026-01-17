@@ -29,5 +29,8 @@ namespace ResoniteLink.REPL
 
             Console.ForegroundColor = prevColor;
         }
+
+        public async Task<string> ReadCommand() => Console.ReadLine();
+        
     }
 }

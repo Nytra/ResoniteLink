@@ -68,5 +68,16 @@ namespace ResoniteLink.Tests.REPL
 
             Assert.Equal("Enter command: ", outputWriter.ToString());
         }
+
+        [Fact]
+        public async Task ReadCommand()
+        {
+            using var inputReader = new StringReader("sample command" + Environment.NewLine);
+            Console.SetIn(inputReader);
+
+            string command = await _commandIO.ReadCommand();
+
+            Assert.Equal("sample command", command);
+        }
     }
 }

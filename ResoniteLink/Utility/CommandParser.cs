@@ -13,10 +13,8 @@ namespace ResoniteLink
         /// If the command is unknown, CommandType.Unknown will be returned with the keyword as the arguments.
         /// If the input is empty or whitespace, CommandType.Unknown with empty arguments will be returned.
         /// </returns>
-        public static async Task<Command> ReadCommand()
+        public static Command ReadCommand(string input)
         {
-            var input = Console.ReadLine();
-
             if (string.IsNullOrWhiteSpace(input))
                     return new Command(CommandType.Unknown, string.Empty);
 

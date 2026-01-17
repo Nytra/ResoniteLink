@@ -50,7 +50,8 @@ namespace ResoniteLink
             {
                 await PrintPrompt();
 
-                var command = await CommandParser.ReadCommand();
+                var input = await _messaging.ReadCommand();
+                var command = CommandParser.ReadCommand(input);
 
                 keepProcessing = await ProcessCommand(command);
             } while (keepProcessing);

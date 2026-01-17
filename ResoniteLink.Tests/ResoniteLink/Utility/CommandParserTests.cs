@@ -3,25 +3,8 @@ using ResoniteLink;
 
 namespace ResoniteLink.Tests.ResoniteLink
 {
-    public class CommandParserTests : IDisposable
+    public class CommandParserTests
     {
-        private readonly TextReader _originalIn;
-        private readonly TextWriter _originalOut;
-
-        public CommandParserTests()
-        {
-            // Preserve original console streams
-            _originalIn = Console.In;
-            _originalOut = Console.Out;
-        }
-
-        public void Dispose()
-        {
-            // Restore original console streams
-            Console.SetIn(_originalIn);
-            Console.SetOut(_originalOut);
-        }
-
         [Theory]
         [InlineData("addChild ChildSlot", CommandType.AddChild, "ChildSlot")]
         [InlineData("addComponent MeshRenderer", CommandType.AddComponent, "MeshRenderer")]
@@ -45,11 +28,7 @@ namespace ResoniteLink.Tests.ResoniteLink
         [InlineData("eChO test ignore case", CommandType.Echo, "test ignore case")]
         public async Task ReadCommand_Parameterized(string input, CommandType expectedKeyword, string expectedArguments)
         {
-            // Redirect console input
-            using var inputReader = new StringReader(input + Environment.NewLine);
-            Console.SetIn(inputReader);
-
-            Command command = await CommandParser.ReadCommand();
+            Command command = CommandParser.ReadCommand(input);
 
             Assert.Equal(expectedKeyword, command.CommandType);
             Assert.Equal(expectedArguments, command.Arguments);
