@@ -20,6 +20,6 @@ namespace ResoniteLink
         /// Make sure to check if the name of the generic parameter matches the generic parameters first before trying to get the type definition!
         /// </summary>
         [JsonPropertyName("genericArguments")]
-        public List<string> GenericParameters { get; set; }
+        public List<string> GenericArguments { get; set; }
     }
 }
