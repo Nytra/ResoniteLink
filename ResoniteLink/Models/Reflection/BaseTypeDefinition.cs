@@ -8,16 +8,18 @@ namespace ResoniteLink
     public class BaseTypeDefinition
     {
         /// <summary>
-        /// The definition of the base type. If the type is a generic one, it will be generic type definition,
-        /// with the generic parameters provided separately.
+        /// The typename of the base type. For generic types, this will always be generic type definition.
+        /// For generic types the arguments are specified separately.
         /// </summary>
-        [JsonPropertyName("definition")]
-        public TypeDefinition Definition { get; set; }
+        [JsonPropertyName("type")]
+        public string Type { get; set; }
 
         /// <summary>
-        /// If the base type is a generic type, this will contain the parameters used specifically by the type.
+        /// For generic base types, this is list of generic arguments used.
+        /// These can be either actual types - or they can be the generic parameters of the derived class.
+        /// Make sure to check if the name of the generic parameter matches the generic parameters first before trying to get the type definition!
         /// </summary>
-        [JsonPropertyName("genericParameters")]
-        public List<TypeDefinition> GenericParameters { get; set; }
+        [JsonPropertyName("genericArguments")]
+        public List<string> GenericParameters { get; set; }
     }
 }

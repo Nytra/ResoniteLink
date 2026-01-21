@@ -16,10 +16,9 @@ namespace ResoniteLink
     {
         /// <summary>
         /// Contains definition of base type of this type if requested and if the base type is relevant to ResoniteLink.
-        /// If definitions of components are requested as flattened, base types are omitted.
         /// </summary>
         [JsonPropertyName("baseType")]
-        public string BaseType { get; set; }
+        public BaseTypeDefinition BaseType { get; set; }
 
         /// <summary>
         /// The full type encoded using Resonite's type encoding (which is similar to C# type definitions)
@@ -70,13 +69,6 @@ namespace ResoniteLink
         /// </summary>
         [JsonPropertyName("isEnginePrimitive")]
         public bool IsEnginePrimitive { get; set; }
-
-        /// <summary>
-        /// Indicates if this type represents a generic parameter - a placeholder for generic types, which can be
-        /// replaced with other types.
-        /// </summary>
-        [JsonPropertyName("isGenericParameter")]
-        public bool IsGenericParameter { get; set; }
 
         /// <summary>
         /// For generic types, this lists all the generic arguments for this type when they're provided.
