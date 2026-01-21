@@ -14,10 +14,12 @@ namespace ResoniteLink
         public string Name { get; set; }
 
         /// <summary>
-        /// If this parameter constrains a generic type, this will contain the full type name of the constraint.
+        /// List of types that this generic parameter must match. These are typically classes/interfaces.
+        /// Special constraints like struct/unmanaged/class are represented through other properties.
+        /// They can be combined with types constraints.
         /// </summary>
-        [JsonPropertyName("typeName")]
-        public string TypeName { get; set; }
+        [JsonPropertyName("types")]
+        public List<string> Types { get; set; }
 
         /// <summary>
         /// Requires that this parameter is an unmanaged type
