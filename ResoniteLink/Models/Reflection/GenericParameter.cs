@@ -36,6 +36,12 @@ namespace ResoniteLink
         public bool Struct { get; set; }
 
         /// <summary>
+        /// Requires this parameter to be an enum type
+        /// </summary>
+        [JsonPropertyName("enum")]
+        public bool Enum { get; set; }
+
+        /// <summary>
         /// Requires that this parameter is a class type
         /// See C# documentation for the struct keyword
         /// </summary>
