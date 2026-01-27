@@ -71,6 +71,13 @@ namespace ResoniteLink
         public bool IsGenericTypeDefinition { get; set; }
 
         /// <summary>
+        /// Number of direct generic parameters on this type. This matters primarily for nested types, where the generic parameters/arguments
+        /// can be spread throughout the base classes.
+        /// </summary>
+        [JsonPropertyName("directGenericParameterCount")]
+        public int DirectGenericParameterCount { get; set; }
+
+        /// <summary>
         /// Indicates if this datatype is an engine primitive - one that can be used as value in fields
         /// </summary>
         [JsonPropertyName("isEnginePrimitive")]
