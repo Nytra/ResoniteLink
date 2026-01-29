@@ -31,11 +31,17 @@ There are a few community projects built around or with ResoniteLink:
 |-------------------------------------------------------------------------------|--------------------------------------------------------|
 | [CyrillusDerg/GoResoniteLink](https://github.com/CyrillusDerg/GoResoniteLink) | Go implementation of REPL with extended functionality. |
 
-## C#  <img alt="C# programming language logo. Go text on coloured background." src="https://skillicons.dev/icons?i=cs" width="16">
+## C#  <img alt="C# programming language logo. C and # characters on a bright background." src="https://skillicons.dev/icons?i=cs" width="16">
 
 | Repository                                                                  | Description                                                                                   |
 |-----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
 | [ssmucny/ResoniteLink.RPath](https://github.com/ssmucny/ResoniteLink.RPath) | API to perform more complex queries on ResoniteLink, similar to LINQ, but not quite the same. |
+
+## JavaScript  <img alt="JavaScript programming language logo. JS letters on a bright coloured background." src="https://skillicons.dev/icons?i=js" width="16">
+
+| Repository                                                            | Description                                                           |
+|-----------------------------------------------------------------------|-----------------------------------------------------------------------|
+| [xhayper/ResoniteLink.js](https://github.com/xhayper/ResoniteLink.js) | A type-safe, easy to use JS wrapper for interacting with ResoniteLink |
 
 If you build something cool, let us know (just create an issue on this repository) with a link, and we'll add it when we can!
 
