@@ -19,6 +19,13 @@ namespace ResoniteLink
         public TypeDefinition Type { get; set; }
 
         /// <summary>
+        /// Indicates of the base type of this component is also a component and should have its bindings generated.
+        /// When false, the base type should not be treated like a component anymore.
+        /// </summary>
+        [JsonPropertyName("baseTypeIsComponent")]
+        public bool BaseTypeIsComponent { get; set; }
+
+        /// <summary>
         /// List of all members and their definitions that this container has.
         /// </summary>
         [JsonPropertyName("members")]
