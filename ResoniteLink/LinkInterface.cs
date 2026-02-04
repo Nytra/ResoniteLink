@@ -179,9 +179,12 @@ namespace ResoniteLink
 
         public Task<ComponentDefinitionData> GetComponentDefinition(GetComponentDefinition request) =>
             SendMessage<GetComponentDefinition, ComponentDefinitionData>(request);
-
         public Task<ComponentDefinitionData> GetComponentDefinition(string type, bool flattened) => SendMessage<GetComponentDefinition, ComponentDefinitionData>(
             new GetComponentDefinition() { ComponentType = type, Flattened = flattened });
+        public Task<SyncObjectDefinitionData> GetSyncObjectDefinition(GetSyncObjectDefinition request) =>
+            SendMessage<GetSyncObjectDefinition, SyncObjectDefinitionData>(request);
+        public Task<SyncObjectDefinitionData> GetSyncObjectDefinition(string type, bool flattened) => SendMessage<GetSyncObjectDefinition, SyncObjectDefinitionData>(
+            new GetSyncObjectDefinition() { SyncObjectType = type, Flattened = flattened });
         public Task<TypeDefinitionData> GetTypeDefinition(GetTypeDefinition request) => SendMessage<GetTypeDefinition, TypeDefinitionData>(request);
         public Task<TypeDefinitionData> GetTypeDefinition(string typename) => 
             SendMessage<GetTypeDefinition, TypeDefinitionData>(new GetTypeDefinition() { Type = typename });
