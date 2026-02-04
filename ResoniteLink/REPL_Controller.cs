@@ -15,7 +15,7 @@ namespace ResoniteLink
         public Component CurrentComponent { get; private set; }
 
         // The prefix prevents multiple REPL sessions from colliding with each other's ID's
-        readonly string _prefix;
+        string _prefix;
 
         int _idPool;
 
