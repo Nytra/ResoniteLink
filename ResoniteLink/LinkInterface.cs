@@ -163,6 +163,7 @@ namespace ResoniteLink
 
         public Task<AssetData> ImportTexture(ImportTexture2DFile request) => SendMessage<ImportTexture2DFile, AssetData>(request);
         public Task<AssetData> ImportTexture(ImportTexture2DRawData request) => SendMessage<ImportTexture2DRawData, AssetData>(request);
+        public Task<AssetData> ImportTexture(ImportTexture2DRawDataHDR request) => SendMessage<ImportTexture2DRawDataHDR, AssetData>(request);
 
         public Task<AssetData> ImportMesh(ImportMeshJSON request) => SendMessage<ImportMeshJSON, AssetData>(request);
         public Task<AssetData> ImportMesh(ImportMeshRawData request) => SendMessage<ImportMeshRawData, AssetData>(request);
