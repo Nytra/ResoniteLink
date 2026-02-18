@@ -26,7 +26,8 @@ namespace ResoniteLink
     [JsonDerivedType(typeof(ImportTexture2DRawData), "importTexture2DRawData")]
     [JsonDerivedType(typeof(ImportTexture2DRawDataHDR), "importTexture2DRawDataHDR")]
 
-    [JsonDerivedType(typeof(ImportCubemapFile), "importCubemapFile")]
+    [JsonDerivedType(typeof(ImportCubemapFiles), "importCubemapFiles")]
+    [JsonDerivedType(typeof(ImportCubemapFileWithRegions), "importCubemapFileWithRegions")]
     [JsonDerivedType(typeof(ImportCubemapRawData), "importCubemapRawData")]
     [JsonDerivedType(typeof(ImportCubemapRawDataHDR), "importCubemapRawDataHDR")]
 

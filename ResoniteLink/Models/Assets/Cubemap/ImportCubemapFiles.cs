@@ -12,7 +12,7 @@ namespace ResoniteLink
     /// Ideally all files should also be same format and size. Otherwise they will be resized
     /// to match the largest dimensions, which can lower the quality.
     /// </summary>
-    public class ImportCubemapFile : Message
+    public class ImportCubemapFiles : Message
     {
         /// <summary>
         /// Path to a texture file representing positive X axis face
