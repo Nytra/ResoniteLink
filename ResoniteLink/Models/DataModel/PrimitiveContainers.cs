@@ -885,6 +885,47 @@ namespace ResoniteLink
             public partial class Member { }
             
         
+        public class Field_BoundingBox : Field
+        {
+            [JsonPropertyName("value")]
+            public BoundingBox Value { get; set; }
+
+            [JsonIgnore]
+            public override object BoxedValue { get => Value; set => Value = (BoundingBox)value; }
+
+            [JsonIgnore]
+            public override Type ValueType => typeof(BoundingBox);
+        }
+
+        public class Array_BoundingBox : SyncArray
+        {
+            [JsonPropertyName("values")]
+            public List<BoundingBox> Values { get; set; }
+
+            [JsonIgnore]
+            public override Type ElementType => typeof(BoundingBox);
+        }
+
+        [JsonDerivedType(typeof(Field_BoundingBox), "BoundingBox")]
+        [JsonDerivedType(typeof(Array_BoundingBox), "BoundingBox[]")]
+        public partial class Member { }
+
+                    public class Field_Nullable_BoundingBox : Field
+            {
+                [JsonPropertyName("value")]
+                public BoundingBox? Value { get; set; }
+
+                [JsonIgnore]
+                public override object BoxedValue { get => Value; set => Value = value as BoundingBox?; }
+
+                [JsonIgnore]
+                public override Type ValueType => typeof(BoundingBox?);
+            }
+
+            [JsonDerivedType(typeof(Field_Nullable_BoundingBox), "BoundingBox?")]
+            public partial class Member { }
+            
+        
         public class Field_float2 : Field
         {
             [JsonPropertyName("value")]

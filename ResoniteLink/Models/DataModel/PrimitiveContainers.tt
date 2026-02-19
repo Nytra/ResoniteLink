@@ -47,6 +47,7 @@ List<string> standaloneTypes = new List<string>
 
     "Rect",
     "IntRect",
+    "BoundingBox",
 };
 
 List<string> vectorTypes = new List<string>
