@@ -19,6 +19,6 @@ namespace ResoniteLink
         /// The full type is however useful when matching up members for references.
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public TypeReference Type { get; set; }
     }
 }
