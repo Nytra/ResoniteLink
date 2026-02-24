@@ -8,6 +8,11 @@ This stage won't likely run long. Once we're happy that we got some feedback, we
 # Nuget Package
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![NuGet](https://img.shields.io/nuget/v/YellowDogMan.ResoniteLink.svg)](https://www.nuget.org/packages/YellowDogMan.ResoniteLink) [![GitHub deployments](https://img.shields.io/github/deployments/Yellow-Dog-Man/ResoniteLink/github-pages?style=flat&label=Documentation)](https://yellow-dog-man.github.io/ResoniteLink/)
 
+# Official projects
+Here are official projects using ResoniteLink - you can use these as a reference or build on them!
+
+[**Unity SDK**](https://github.com/Yellow-Dog-Man/Resonite.UnitySDK) - Allows building Resonite worlds, avatars & items from the Unity Editor
+
 # Community project/library links
 
 There are a few community projects built around or with ResoniteLink:
