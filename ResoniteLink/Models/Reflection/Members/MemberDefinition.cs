@@ -11,6 +11,7 @@ namespace ResoniteLink
     [JsonDerivedType(typeof(ArrayDefinition), "array")]
     [JsonDerivedType(typeof(SyncObjectMemberDefinition), "syncObject")]
     [JsonDerivedType(typeof(EmptyMemberDefinition), "empty")]
+    [JsonDerivedType(typeof(SyncPlaybackDefinition), "playback")]
     public abstract class MemberDefinition
     {
         /// <summary>
@@ -19,6 +20,6 @@ namespace ResoniteLink
         /// The full type is however useful when matching up members for references.
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public TypeReference Type { get; set; }
     }
 }

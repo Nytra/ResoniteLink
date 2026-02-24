@@ -24,7 +24,7 @@ There are a few community projects built around or with ResoniteLink:
 
 | Repository                                                  | Description                            |
 |-------------------------------------------------------------|----------------------------------------|
-| [Resoxide/resoxide-link](github.com/Resoxide/resoxide-link) | A Rust implementation of ResoniteLink. |
+| [Resoxide/resoxide-link](https://github.com/Resoxide/resoxide-link) | A Rust implementation of ResoniteLink. |
 
 ## Golang  <img alt="Golang programming language logo. Go text on coloured background." src="https://skillicons.dev/icons?i=go" width="16">
 
