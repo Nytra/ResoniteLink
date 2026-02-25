@@ -11,10 +11,6 @@ namespace ResoniteLink
     /// </summary>
     public class SyncObjectMemberDefinition : MemberDefinition
     {
-        /// <summary>
-        /// Datatype of the sync object
-        /// </summary>
-        [JsonPropertyName("type")]
-        public TypeReference Type { get; set; }
+        // Nothing needed here specifically. MemberDefinition already contains the Type, which is the type of the sync object
     }
 }

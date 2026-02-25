@@ -11,11 +11,6 @@ namespace ResoniteLink
     /// </summary>
     public class EmptyMemberDefinition : MemberDefinition
     {
-        /// <summary>
-        /// The full type of this empty member.
-        /// This can be used to differentiate the different types from each other.
-        /// </summary>
-        [JsonPropertyName("memberType")]
-        public TypeReference MemberType { get; set; }
+        // Nothing needed here. MemberDefinition already contains the type of this member
     }
 }
